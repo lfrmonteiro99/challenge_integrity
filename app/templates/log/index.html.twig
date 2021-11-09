@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LogController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+        .modal{
+            overflow-y: hidden;
+            max-height: 80vh;
+        }
+        .modal-content, .modal-dialog{
+            height: 100%;
+        }
+        .modal-body{
+            overflow-y: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-striped table-hover table-bordered table-responsive">
+                    <caption>List of logs</caption>
+                    <thead>
+                    <th scope="col">URL</th>
+                    <th scope="col">Result</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Parameters</th>
+                    </thead>
+                    <tbody>
+                    {% for log in logs %}
+                        <tr class="{{ log.result ? 'table-primary' : 'table-danger' }}">
+                            <td>
+                                {% if(log.image) %}
+                                <a style="cursor: pointer" class="link-line" data-id="{{ log.id }}">
+                                    {% endif %}
+                                    {% if log.image is null %} <span title="No image available"> {% endif %}{{ log.url }} {% if log.image is null %} </span> {% endif %}
+                                    {% if(log.image) %}
+                                </a>
+                                {% endif %}
+                            </td>
+                            <td>{{ log.response }}</td>
+                            <td>
+                                {% if(log.getCreatedAt()) %}
+                                    {{ log.getCreatedAt()|date('Y-m-d H:i') }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% for param in log.params %}
+                                    {{ param|e }} |
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    {{include('log/modalDetail.html.twig')}}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).on("click", ".link-line", function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/log/'+$(this).data('id'),
+                method: 'GET',
+                beforeSend: function(){
+                    $(".spinner").removeClass('d-none').addClass('d-block');
+                    $(".modal-image-preview-modal").modal('show');
+                    $(".modal-body.modal-image-preview-body .modal-img").addClass('d-none');
+                }
+            }).done(function( msg ) {
+                $(".spinner").addClass('d-none').removeClass('d-block');
+                $(".modal-body.modal-image-preview-body .modal-img").removeClass('d-none').addClass('d-block');
+                $(".modal-body.modal-image-preview-body .modal-img").attr('src', '/downloads/'+msg);
+                $(".modal-image-preview-modal").modal('show');
+            }).fail(function() {
+                console.log("erro")
+            });
+        })
+
+        $(".modal-image-preview-modal").on('hidden.bs.modal', function(e){
+            $(".spinner").addClass('d-none').removeClass('d-block');
+        })
+    </script>
+{% endblock %}

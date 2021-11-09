@@ -1,0 +1,12 @@
+#index:
+#    path: /
+#    controller: App\Controller\LogController::ola
+index:
+  path: /
+  controller: App\Controller\LogController::index
+  methods: GET
+
+log:
+  path: /log/{id}
+  controller: App\Controller\LogController::show
+  methods: GET
