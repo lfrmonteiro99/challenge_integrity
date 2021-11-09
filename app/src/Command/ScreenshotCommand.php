@@ -120,19 +120,19 @@ try{
                 ),
                 new InputOption(
                     'file_type',
-                    'ft',
+                    't',
                     InputOption::VALUE_OPTIONAL,
                     'for the file (If output is not set to json), the options include PNG, JPG, WebP, and PDF. The default is PNG'
                 ),
                 new InputOption(
                     'fail_on_error',
-                    'foe',
+                    'e',
                     InputOption::VALUE_OPTIONAL,
                     'If fail on error is set to true, then the API will return an error if the render encounters a 4xx or 5xx status code. Default is false'
                 ),
                 new InputOption(
                     'scroll_to_element',
-                    'ste',
+                    'm',
                     InputOption::VALUE_OPTIONAL,
                     'Only include expenses matching the specified status'
                 ),
