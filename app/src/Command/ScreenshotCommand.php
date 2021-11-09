@@ -126,7 +126,7 @@ try{
                 ),
                 new InputOption(
                     'fail_on_error',
-                    'e',
+                    'x',
                     InputOption::VALUE_OPTIONAL,
                     'If fail on error is set to true, then the API will return an error if the render encounters a 4xx or 5xx status code. Default is false'
                 ),
@@ -134,17 +134,17 @@ try{
                     'scroll_to_element',
                     'm',
                     InputOption::VALUE_OPTIONAL,
-                    'Only include expenses matching the specified status'
+                    'Target a specific element for the browser to scroll to before the render. This is useful if a given element is only loaded in the viewport. Default is \'\''
                 ),
                 new InputOption(
                     'selector',
                     's',
                     InputOption::VALUE_OPTIONAL,
-                    'Only include expenses matching the specified status'
+                    'Specify the target for the render based on a element with a matching selector. If the element is not found, a render of the results is still returned. Example: div > .main-navigation > .logo. Default is \'\''
                 ),
                 new InputOption(
                     'full_page',
-                    'fp',
+                    'p',
                     InputOption::VALUE_OPTIONAL,
                     'Capture the full page of a website vs. the scrollable area that is visible in the viewport upon render. Default is false'
                 ),
@@ -158,13 +158,13 @@ try{
                     'width',
                     'W',
                     InputOption::VALUE_OPTIONAL,
-                    'Only include expenses matching the specified status'
+                    'Viewport width in pixels of the browser render. Default is 1680'
                 ),
                 new InputOption(
                     'height',
                     'H',
                     InputOption::VALUE_OPTIONAL,
-                    'Only include expenses matching the specified status'
+                    'Viewport height in pixels of the browser render. Default is 867'
                 ),
             ]
         );
