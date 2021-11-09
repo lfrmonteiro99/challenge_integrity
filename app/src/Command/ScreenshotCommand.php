@@ -59,6 +59,7 @@ class ScreenshotCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
         $queryParams = $this->arrangeQueryParams($input);
         $logController = new LogController($this->params, $this->entityManager);
 
@@ -69,15 +70,13 @@ class ScreenshotCommand extends Command
             $output->writeln($response);
             return Command::INVALID;
         }
-
+try{
         $urlQuery = "https://shot.screenshotapi.net/screenshot" . "?token=$this->token&$queryParams";
 
         $response = $this->client->request(
             'GET',
             $urlQuery
         );
-
-
 
         try {
             $content = $response->getContent();
@@ -100,6 +99,13 @@ class ScreenshotCommand extends Command
 
         $output->writeln('Command success');
         return Command::SUCCESS;
+}catch(\Exception $e){
+    $response = $logController->store($input, $queryParams, null);
+    //$response = $this->createLog($input, $queryParams, null);
+    $response = 'Error in arguments. Command not successful' . ($response ? ' and log was stored' : " $response");
+    $output->writeln($response);
+    return Command::INVALID;
+}
     }
 
     public function configureInputDefinitions()
